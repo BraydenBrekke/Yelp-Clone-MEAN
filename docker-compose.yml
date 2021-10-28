@@ -4,7 +4,7 @@ version: '3.0' # specify docker-compose version
 services:
  angular: # name of the first service
   build: frontend # specify the directory of the Dockerfile
-  expose:
+  ports:
     - "80:80"
  express: # name of the second service
   build: backend # specify the directory of the Dockerfile
