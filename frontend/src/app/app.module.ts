@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http'; // add http client module
 
 import { AppComponent } from './app.component';
 
@@ -8,7 +9,8 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule // import http client module
   ],
   providers: [],
   bootstrap: [AppComponent]
