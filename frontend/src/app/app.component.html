@@ -1,27 +1,57 @@
 <!-- Bootstrap Navbar -->
-<nav class="navbar navbar-light bg-faded">
-  <div class="container">
-    <a class="navbar-brand" href="#">Mean Docker</a>
-  </div>
-</nav>
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Yelp Clone</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="/"
+            >Reviews <span class="sr-only">(current)</span></a
+          >
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/add"
+            >Add Review <span class="sr-only">(current)</span></a
+          >
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
 
 <div class="container">
-    <h3>Add new person</h3>
-    <form>
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" #name>
+  <h1>Reviews</h1>
+  <div *ngIf="businesses">
+    <div class="card-group">
+      <div class="col-sm-4 mb-2" *ngFor="let c of businesses">
+        <div class="card">
+          <img src="http://localhost:3000/${c.business_id}" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <h5 class="card-title">{{ c.name }}</h5>
+            <span
+              *ngFor="let index of [].constructor(c.stars)"
+              class="fa fa-star checked"
+            ></span>
+            <span
+              *ngFor="let index of [].constructor(5 - c.stars)"
+              class="fa fa-star"
+            ></span>
+            <p class="card-text">{{ c.categories }}</p>
+            <a href="/{{c.business_id}}" class="btn btn-primary"> More </a>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="age">Age</label>
-        <input type="number" class="form-control" id="age" #age>
-      </div>
-      <button type="button" (click)="addPerson(name.value, age.value)" class="btn btn-primary">Add person</button>
-    </form>
-
-    <h3>People</h3>
-    <!-- Bootstrap Card -->
-    <div class="card card-block col-md-3" *ngFor="let person of people">
-      <h4 class="card-title">{{person.name}}  {{person.age}}</h4>
     </div>
+  </div>
 </div>

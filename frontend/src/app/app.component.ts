@@ -12,30 +12,22 @@ export class AppComponent implements OnInit {
   // Link to our api, pointing to localhost
   API = 'http://localhost:3000';
 
-  // Declare empty list of people
-  people: any[] = [];
+  // Declare empty list of businesses
+  businesses: any[] = [];
 
   constructor(private http: HttpClient) {}
 
   // Angular 2 Life Cycle event when component has been initialized
   ngOnInit() {
-    this.getAllPeople();
+    this.getAllBusinesses();
   }
 
-  // Add one person to the API
-  addPerson(name: any, age: any) {
-    this.http.post(`${this.API}/users`, {name, age})
-      .subscribe(() => {
-        this.getAllPeople();
-      })
-  }
 
-  // Get all users from the API
-  getAllPeople() {
-    this.http.get(`${this.API}/users`)
-      .subscribe((people: any) => {
-        console.log(people)
-        this.people = people
+  // Get all Businesses from the API
+  getAllBusinesses() {
+    this.http.get(`${this.API}/business`)
+      .subscribe((business: any) => {
+        this.businesses = business
       })
   }
 }

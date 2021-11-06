@@ -1,6 +1,5 @@
-import { } from 'node';
 
 export const environment = {
  production: false,
- apiUrl: process.env.API_URL || 'http://127.0.0.1:3000'
+ apiUrl:  'http://127.0.0.1:4200'
 };
