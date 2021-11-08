@@ -11,4 +11,7 @@ services:
  express: # name of the second service
   build: backend # specify the directory of the Dockerfile
   ports:
-  - "3000:3000" #specify ports mapping
+    - "3000:3000" #specify ports mapping
+  dns:
+    - 8.8.8.8
+  network_mode: "bridge"
