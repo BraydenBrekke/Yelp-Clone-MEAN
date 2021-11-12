@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>New Review</h1>
+<div mat-dialog-content>
+  <p>What's your favorite animal?</p>
+  <mat-form-field appearance="fill">
+    <mat-label>Comment</mat-label>
+    <textarea matInput atInput [(ngModel)]="data.text" required></textarea>
+  </mat-form-field>
+  <mat-label>Rating&nbsp;</mat-label>
+  <mat-slider thumbLabel min="0" max="5" step="1" value="5" [(ngModel)]="data.stars"></mat-slider>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" [disabled]="data.text == ''">Submit</button>
+</div>

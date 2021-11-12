@@ -46,10 +46,39 @@ export class BusinessesComponent implements OnInit {
             }
           });
         }
-
-        console.log(this.businesses);
       });
   }
+
+  /*
+  addBusiness(businessForm: any) {
+    const businessSchema: any = {
+      address: "",
+      attributes: {
+        BusinessAcceptsCreditCards: null,
+        ByAppointmentOnly: null,
+        GoodForKids: null,
+      },
+      BusinessAcceptsCreditCards: null,
+      ByAppointmentOnly: null,
+      GoodForKids: null,
+      RestaurantsPriceRange2: null,
+      business_id: "",
+      categories: "",
+      city: "",
+      hours: null,
+      is_open: null,
+      latitude: null,
+      longitude: null,
+      name: "",
+      postal_code: "",
+      review_count: 0,
+      stars: 0
+    };
+
+    const bus = Object.assign({}, businessSchema, businessForm);
+    console.log(bus);
+  }
+  */
 
   navigateToReview(business: any) {
     this.router.navigateByUrl('business/' + business.business_id, {state: business});

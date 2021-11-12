@@ -33,8 +33,16 @@ body {
   background-color: #3f51b5 !important;
 }
 
+/*.bg-accent {*/
+  /**/
+/*}*/
+
 .badge {
   margin: 0.1em 0.15em;
+}
+
+.navigate{
+  cursor: pointer;
 }
 
 .bi {

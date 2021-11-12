@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Route, Router} from "@angular/router";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
+import {ToolbarService} from "../toolbar.service";
+import {MatDialog} from "@angular/material/dialog";
+import {ReviewComponent, ReviewData} from "../review/review.component";
 
 @Component({
   selector: 'app-review',
@@ -12,7 +15,10 @@ export class BusinessComponent implements OnInit {
   business: any;
   reviews: any;
 
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {
+  stars: number = 0;
+  text: string = "";
+
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private toolbarService: ToolbarService, public dialog: MatDialog) {
     this.business = this.router.getCurrentNavigation()?.extras?.state;
 
     if (!this.business) {
@@ -45,8 +51,35 @@ export class BusinessComponent implements OnInit {
       });
   }
 
+  postReview(data: ReviewData) {
+    // Post new or edited reviews here.
+    alert(JSON.stringify(data));
+  }
+
+  openReviewDialog() {
+    const dialogRef = this.dialog.open(ReviewComponent, {
+      width: '250px',
+      data: {
+        stars: this.stars,
+        text: this.text
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.postReview(result);
+      }
+    });
+  }
+
   ngOnInit() {
     this.getAllReviews();
+
+    if (this.toolbarService.subsVar == undefined) {
+      this.toolbarService.subsVar = this.toolbarService.invokeOpenReviewDialog.subscribe((name: string) => {
+        this.openReviewDialog();
+      });
+    }
   }
 
 }

@@ -13,16 +13,22 @@ import {MatInputModule} from "@angular/material/input";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatCardModule} from "@angular/material/card";
 import {MatMenuModule} from "@angular/material/menu";
-import { AppRoutingModule } from './app-routing.module';
+import {AppRoutingModule} from './app-routing.module';
 import {RouterModule} from "@angular/router";
-import { BusinessComponent } from './business/business.component';
+import {BusinessComponent} from './business/business.component';
+import {ReviewComponent} from './review/review.component';
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {FormsModule} from "@angular/forms";
+import {MatFormFieldControl} from "@angular/material/form-field";
+import {MatSlider, MatSliderModule} from "@angular/material/slider";
 
 
 @NgModule({
   declarations: [
     AppComponent,
     BusinessesComponent,
-    BusinessComponent
+    BusinessComponent,
+    ReviewComponent
   ],
   imports: [
     BrowserModule,
@@ -37,9 +43,12 @@ import { BusinessComponent } from './business/business.component';
     MatMenuModule,
     MatIconModule,
     AppRoutingModule,
-    RouterModule
+    RouterModule,
+    MatDialogModule,
+    FormsModule,
+    MatSliderModule
   ],
-  providers: [],
+  providers: [MatDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule {

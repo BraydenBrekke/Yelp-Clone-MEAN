@@ -1,13 +1,15 @@
 <mat-toolbar>
   <div class="container">
-    <span>Yelp Clone</span>
+    <button mat-button color="primary" (click)="navigateToRoot()">
+      <mat-icon>mode_comment</mat-icon>
+      <h5 class="d-inline-block">&nbsp;Yelp Clone</h5>
+    </button>
     <span class="example-spacer"></span>
-    <button mat-raised-button color="primary">
+    <button mat-raised-button color="primary" (click)="buttonAction()" *ngIf="currentSlug !== 0">
       <mat-icon>add</mat-icon>
-      New
+      {{addBtnTxt}}
     </button>
   </div>
 </mat-toolbar>
-
 
 <router-outlet></router-outlet>
