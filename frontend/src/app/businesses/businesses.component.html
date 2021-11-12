@@ -1,0 +1,30 @@
+<div class="container px-4 py-5">
+  <h2 class="pb-2 border-bottom">Businesses</h2>
+  <div *ngIf="businesses">
+    <div class="row g-4 py-5 row-cols-1 row-cols-md-2 row-cols-lg-3">
+      <div *ngFor="let b of businesses">
+        <mat-card class="example-card">
+          <mat-card-title>{{ b.name }}</mat-card-title>
+          <mat-card-subtitle>{{b.city}}, {{b.state}}</mat-card-subtitle>
+          <mat-card-content>
+            <p>
+              <mat-icon *ngFor="let index of [].constructor(b.stars)" aria-hidden="false" aria-label="Star"
+                        class="gold">
+                star
+              </mat-icon>
+              <mat-icon *ngFor="let index of [].constructor(5 - b.stars)" aria-hidden="false" aria-label="Star" class="faded">
+                star
+              </mat-icon>
+            </p>
+            <p>
+              <span  *ngFor="let c of b.categories" class="badge rounded-pill bg-light text-dark">{{c}}</span>
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button color="primary" (click)="navigateToReview(b)">VIEW</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

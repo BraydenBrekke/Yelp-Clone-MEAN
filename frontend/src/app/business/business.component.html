@@ -1,0 +1,65 @@
+<div class="container container-center px-4 py-5 justify-content">
+  <h2 class="pb-2 border-bottom">{{business.name}}</h2>
+  <div class="row g-4 py-5 row-cols-1 row-cols-md-3">
+    <div class="feature col">
+      <div class="feature-icon bg-primary bg-gradient">
+        <mat-icon aria-hidden="false" aria-label="Star">place</mat-icon>
+      </div>
+      <h2>Address</h2>
+      <p>{{business.address}}<br>{{business.city}}, {{business.state}} {{business.postal_code}}</p>
+    </div>
+    <div class="feature col">
+      <div class="feature-icon bg-primary bg-gradient">
+        <mat-icon aria-hidden="false" aria-label="Star">thumb_up</mat-icon>
+      </div>
+      <h2>Rating</h2>
+      <p>
+        <mat-icon *ngFor="let index of [].constructor(business.stars)" aria-hidden="false" aria-label="Star"
+                  class="gold">
+          star
+        </mat-icon>
+        <mat-icon *ngFor="let index of [].constructor(5 - business.stars)" aria-hidden="false" aria-label="Star"
+                  class="faded">
+          star
+        </mat-icon>
+      </p>
+
+    </div>
+    <div class="feature col">
+      <div class="feature-icon bg-primary bg-gradient">
+        <mat-icon aria-hidden="false" aria-label="Star">category</mat-icon>
+      </div>
+      <h2>Categories</h2>
+      <span *ngFor="let c of business.categories" class="badge rounded-pill bg-primary">{{c}}</span>
+    </div>
+  </div>
+  <div class="row g-4 py-5 row-cols-1">
+    <div class="feature col">
+      <h2 class="pb-2 border-bottom">Reviews</h2>
+      <div *ngIf="reviews">
+        <div class="row g-4 py-5 row-cols-1 row-cols-md-2 row-cols-lg-3">
+          <div *ngFor="let r of reviews">
+
+            <mat-card class="example-card">
+              <mat-card-subtitle>{{r.user_details[0].name}} @ {{r.date| date: 'short'}}</mat-card-subtitle>
+              <mat-card-content>
+                <p>
+                  <mat-icon *ngFor="let index of [].constructor(r.stars)" aria-hidden="false" aria-label="Star"
+                            class="gold">
+                    star
+                  </mat-icon>
+                  <mat-icon *ngFor="let index of [].constructor(5 - r.stars)" aria-hidden="false" aria-label="Star"
+                            class="faded">
+                    star
+                  </mat-icon>
+                </p>
+                <p>{{r.text}}</p>
+              </mat-card-content>
+            </mat-card>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
