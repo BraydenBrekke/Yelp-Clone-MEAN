@@ -1,5 +1,9 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { Router } from '@angular/router'; 
+
 
 export interface ReviewData {
   // business_id: string;
@@ -19,18 +23,29 @@ export interface ReviewData {
   styleUrls: ['./review.component.css'],
 })
 export class ReviewComponent implements OnInit {
-
   constructor(
     public dialogRef: MatDialogRef<ReviewComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ReviewData,
-  ) {
-  }
+    private http: HttpClient,
+    private router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: ReviewData
+  ) {}
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
+  submit(): void {
+      var business_id = String(this.router.url).split('/')[2];
+      this.http
+        .post(`${environment.apiUrl}/review/${business_id}`, {
+          text:this.data.text,
+          stars: this.data.stars
+        }).subscribe(data => {
+          console.log(data)
+      })
+          
+    this.dialogRef.close();
+  }
 }

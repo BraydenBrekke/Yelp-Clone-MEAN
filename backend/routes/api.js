@@ -74,6 +74,16 @@ MongoClient.connect(connectionString, function (err, db) {
             });
     });
 
+    app.post("/review/:business_id", function (req,res){
+        var business_id = req.params.business_id;
+        var body = req.body;
+        console.log(body)
+        var reviewobj = { text:body.text , stars: body.stars , business_id:business_id };
+        db.collection("Review").insertOne(reviewobj, function(err, res) {
+          if (err) throw err;
+          db.close();
+        });
+    });
 
     app.get("/uploads/:objectId", function (req, res) {
         var id = req.params.objectId;
