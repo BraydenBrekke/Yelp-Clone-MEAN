@@ -44,7 +44,7 @@
           <div *ngFor="let r of reviews">
 
             <mat-card class="example-card">
-              <mat-card-subtitle>{{r.user_details[0].name}} @ {{r.date| date: 'short'}}</mat-card-subtitle>
+              <mat-card-subtitle>{{r.user_details[0].name}} </mat-card-subtitle>
               <mat-card-content>
                 <p>
                   <mat-icon *ngFor="let index of [].constructor(r.stars)" aria-hidden="false" aria-label="Star"

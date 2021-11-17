@@ -80,7 +80,22 @@ MongoClient.connect(connectionString, function (err, db) {
     const bid = req.params.business_id;
     const cursor = db
       .collection("Review")
-      .count({ business_id: bid })
+      .aggregate([
+        {
+          $match: { business_id: bid },
+        },
+        {
+          $lookup: {
+            from: "User",
+            localField: "user_id",
+            foreignField: "user_id",
+            as: "user_details",
+          },
+        },
+        {
+          $count: "review_id"
+        }
+      ]).toArray()
       .then((results) => {
         res.status(200).json(results);
       });
@@ -113,9 +128,11 @@ MongoClient.connect(connectionString, function (err, db) {
             as: "user_details",
           },
         },
+        {
+          $skip: page
+        }
       ])
       .limit(limit)
-      .skip(page)
       .toArray()
       .then((results) => {
         res.status(200).json(results);

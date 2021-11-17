@@ -32,7 +32,6 @@ export class BusinessComponent implements OnInit {
 
         if (ls && JSON.parse(ls)['business_id'] == busId) {
           this.business = JSON.parse(ls);
-          console.log(this.business);
         } else {
           router.navigateByUrl('/');
         }
@@ -52,7 +51,6 @@ export class BusinessComponent implements OnInit {
         }
         this.reviews = reviews;
 
-        console.log(this.reviews);
       });
   }
 
@@ -79,8 +77,8 @@ export class BusinessComponent implements OnInit {
 
   ngOnInit() {
     this.http.get(`${environment.apiUrl}/review-length/` + this.business.business_id).subscribe((result: any)=>{
-      console.log(result)
-      this.totalSize=result
+      console.log(result[0].review_id)
+      this.totalSize=result[0].review_id
     });
     this.getAllReviews(this);
 
