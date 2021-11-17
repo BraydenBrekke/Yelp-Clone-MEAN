@@ -1,39 +1,43 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {environment} from "../../environments/environment";
-import {Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
+import { CursorError } from '@angular/compiler/src/ml_parser/lexer';
 
 @Component({
   selector: 'app-reviews',
   templateUrl: './businesses.component.html',
-  styleUrls: ['./businesses.component.css']
+  styleUrls: ['./businesses.component.css'],
 })
 export class BusinessesComponent implements OnInit {
-
+  public pageSize = 10;
+  public currentPage = 0;
+  public totalSize=0;
   // Declare empty list of businesses
   businesses: any[] = [];
 
-  constructor(private http: HttpClient, private router: Router) {
-  }
+  constructor(private http: HttpClient, private router: Router) {}
 
   // Angular 2 Life Cycle event when component has been initialized
   ngOnInit() {
-    this.getAllBusinesses();
+    this.http.get(`${environment.apiUrl}/business-length`).subscribe((result: any)=>{
+      this.totalSize=result
+    });
+    this.getAllBusinesses(this);
   }
 
-
   // Get all Businesses from the API
-  getAllBusinesses() {
-    this.http.get(`${environment.apiUrl}/business`)
+  getAllBusinesses(e: any) {
+    this.currentPage = e.pageIndex;
+    this.pageSize = e.pageSize;
+    this.http
+      .get(`${environment.apiUrl}/business?page=` + this.currentPage + '&limit=' + this.pageSize )
       .subscribe((business: any) => {
         this.businesses = business;
-
-
         // Put in a better place
         if (this.businesses && this.businesses.length) {
-          this.businesses.forEach(b => {
+          this.businesses.forEach((b) => {
             b.stars = Math.round(b.stars);
-
 
             if (b.categories && b.categories.length) {
               const catArr = b.categories.split(',');
@@ -81,8 +85,9 @@ export class BusinessesComponent implements OnInit {
   */
 
   navigateToReview(business: any) {
-    this.router.navigateByUrl('business/' + business.business_id, {state: business});
+    this.router.navigateByUrl('business/' + business.business_id, {
+      state: business,
+    });
     localStorage.setItem('business', JSON.stringify(business));
   }
-
 }

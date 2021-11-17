@@ -21,6 +21,7 @@ import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {FormsModule} from "@angular/forms";
 import {MatFormFieldControl} from "@angular/material/form-field";
 import {MatSlider, MatSliderModule} from "@angular/material/slider";
+import { MatPaginatorModule } from '@angular/material/paginator'; 
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import {MatSlider, MatSliderModule} from "@angular/material/slider";
     RouterModule,
     MatDialogModule,
     FormsModule,
-    MatSliderModule
+    MatSliderModule,
+    MatPaginatorModule
   ],
   providers: [MatDialog],
   bootstrap: [AppComponent]

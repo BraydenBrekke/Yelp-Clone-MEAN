@@ -14,6 +14,9 @@ import {ReviewComponent, ReviewData} from "../review/review.component";
 export class BusinessComponent implements OnInit {
   business: any;
   reviews: any;
+  public pageSize = 10;
+  public currentPage = 0;
+  public totalSize=0;
 
   stars: number = 0;
   text: string = "";
@@ -37,8 +40,10 @@ export class BusinessComponent implements OnInit {
     }
   }
 
-  getAllReviews() {
-    this.http.get(`${environment.apiUrl}/review/${this.business.business_id}`)
+  getAllReviews(e:any) {
+    this.currentPage = e.pageIndex;
+    this.pageSize = e.pageSize;
+    this.http.get(`${environment.apiUrl}/review/${this.business.business_id}?page=` + this.currentPage + '&limit=' + this.pageSize)
       .subscribe((reviews: any) => {
         const maxLen = 500;
         for (let i = 0; i < reviews.length; i++) {
@@ -73,7 +78,11 @@ export class BusinessComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllReviews();
+    this.http.get(`${environment.apiUrl}/review-length/` + this.business.business_id).subscribe((result: any)=>{
+      console.log(result)
+      this.totalSize=result
+    });
+    this.getAllReviews(this);
 
     if (this.toolbarService.subsVar == undefined) {
       this.toolbarService.subsVar = this.toolbarService.invokeOpenReviewDialog.subscribe((name: string) => {
