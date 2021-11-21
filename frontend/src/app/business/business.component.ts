@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {ToolbarService} from "../toolbar.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ReviewComponent, ReviewData} from "../review/review.component";
+import {BusinessService} from "../business.service";
 
 @Component({
   selector: 'app-review',
@@ -16,12 +17,12 @@ export class BusinessComponent implements OnInit {
   reviews: any;
   public pageSize = 10;
   public currentPage = 0;
-  public totalSize=0;
+  public totalSize = 0;
 
   stars: number = 0;
   text: string = "";
 
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private toolbarService: ToolbarService, public dialog: MatDialog) {
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private toolbarService: ToolbarService, private businessService: BusinessService, public dialog: MatDialog) {
     this.business = this.router.getCurrentNavigation()?.extras?.state;
 
     if (!this.business) {
@@ -39,7 +40,7 @@ export class BusinessComponent implements OnInit {
     }
   }
 
-  getAllReviews(e:any) {
+  getAllReviews(e: any) {
     this.currentPage = e.pageIndex;
     this.pageSize = e.pageSize;
     this.http.get(`${environment.apiUrl}/review/${this.business.business_id}?page=` + this.currentPage + '&limit=' + this.pageSize)
@@ -76,15 +77,24 @@ export class BusinessComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.get(`${environment.apiUrl}/review-length/` + this.business.business_id).subscribe((result: any)=>{
+    this.http.get(`${environment.apiUrl}/review-length/` + this.business.business_id).subscribe((result: any) => {
       console.log(result[0].review_id)
-      this.totalSize=result[0].review_id
+      this.totalSize = result[0].review_id
     });
+
     this.getAllReviews(this);
 
     if (this.toolbarService.subsVar == undefined) {
       this.toolbarService.subsVar = this.toolbarService.invokeOpenReviewDialog.subscribe((name: string) => {
         this.openReviewDialog();
+      });
+    }
+
+    if (this.businessService.subsVar == undefined) {
+      console.log('abc');
+      this.businessService.subsVar = this.businessService.invokeReviewRefresh.subscribe(() => {
+        console.log('def');
+        this.getAllReviews(this);
       });
     }
   }

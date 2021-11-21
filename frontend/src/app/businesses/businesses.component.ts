@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { Router } from '@angular/router';
-import { CursorError } from '@angular/compiler/src/ml_parser/lexer';
+import {Component, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../environments/environment';
+import {Router} from '@angular/router';
+import {CursorError} from '@angular/compiler/src/ml_parser/lexer';
 
 @Component({
   selector: 'app-reviews',
@@ -12,26 +12,27 @@ import { CursorError } from '@angular/compiler/src/ml_parser/lexer';
 export class BusinessesComponent implements OnInit {
   public pageSize = 10;
   public currentPage = 0;
-  public totalSize=0;
+  public totalSize = 0;
   // Declare empty list of businesses
   businesses: any[] = [];
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+  }
 
   // Angular 2 Life Cycle event when component has been initialized
   ngOnInit() {
-    this.http.get(`${environment.apiUrl}/business-length`).subscribe((result: any)=>{
-      this.totalSize=result
+    this.http.get(`${environment.apiUrl}/business-length`).subscribe((result: any) => {
+      this.totalSize = result
     });
     this.getAllBusinesses(this);
   }
 
   // Get all Businesses from the API
   getAllBusinesses(e: any) {
-    this.currentPage = e.pageIndex;
+    this.currentPage = e.pageIndex ? e.pageIndex : 0;
     this.pageSize = e.pageSize;
     this.http
-      .get(`${environment.apiUrl}/business?page=` + this.currentPage + '&limit=' + this.pageSize )
+      .get(`${environment.apiUrl}/business?page=` + this.currentPage + '&limit=' + this.pageSize)
       .subscribe((business: any) => {
         this.businesses = business;
         // Put in a better place
