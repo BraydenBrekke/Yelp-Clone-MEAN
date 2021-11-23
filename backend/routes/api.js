@@ -173,6 +173,35 @@ MongoClient.connect(connectionString, function (err, db) {
 
         db.collection("Review").insertOne(reviewobj, function (err, res) {
             if (err) throw err;
+
+            db.collection("Business")
+                .find({business_id: business_id})
+                .limit(1)
+                .toArray()
+                .then((results) => {
+                    const bData = results[0];
+
+                    db.collection('Business').updateOne(
+                        {business_id: business_id},
+                        {
+                            $inc: {review_count: 1},
+                            $set: {
+                                // https://math.stackexchange.com/questions/106700/incremental-averaging
+                                stars: Number(
+                                    Number(
+                                        ((bData.stars * bData.review_count) + reviewobj.stars) / bData.review_count++
+                                    ).toFixed(1)
+                                )
+                            }
+                        },
+                        function (err, result) {
+                            if (err) throw err;
+
+                        }
+                    );
+
+                });
+
             origRes.end();
         });
     });
