@@ -16,7 +16,6 @@ import * as Leaflet from 'leaflet';
 export class BusinessComponent implements OnInit, OnDestroy {
   business: any;
   reviews: any;
-  uploads: any;
   public pageSize = 10;
   public currentPage = 0;
   public totalSize = 0;

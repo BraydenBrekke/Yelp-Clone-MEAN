@@ -57,7 +57,9 @@
   </div>
 
   <!-- Carousel -->
-  <ng-image-slider [images]="imgCollection" #nav></ng-image-slider>
+  <div *ngIf="imgCollection.length > 0">
+    <ng-image-slider [images]="imgCollection" #nav></ng-image-slider>
+  </div>
 
 
 
