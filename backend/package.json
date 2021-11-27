@@ -10,6 +10,6 @@
     "express": "~4.14.0",
     "gridfs-stream": "^1.1.1",
     "moment": "^2.29.1",
-    "mongodb": "^4.2.0"
+    "mongodb": "^2.2.34"
   }
 }

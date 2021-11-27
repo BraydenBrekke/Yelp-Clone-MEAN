@@ -22,6 +22,10 @@ import {FormsModule} from "@angular/forms";
 import {MatFormFieldControl} from "@angular/material/form-field";
 import {MatSlider, MatSliderModule} from "@angular/material/slider";
 import { MatPaginatorModule } from '@angular/material/paginator'; 
+import { NgImageSliderModule } from 'ng-image-slider';
+
+
+
 
 
 @NgModule({
@@ -32,6 +36,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     ReviewComponent
   ],
   imports: [
+    NgImageSliderModule,
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,

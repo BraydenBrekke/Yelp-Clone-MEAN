@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NavigationStart, Router} from "@angular/router";
 import {ToolbarService} from "./toolbar.service";
 
+
 enum slug {
   BUSINESSES,
   BUSINESS

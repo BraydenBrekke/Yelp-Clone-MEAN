@@ -1,37 +1,46 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Route, Router} from "@angular/router";
-import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {ToolbarService} from "../toolbar.service";
-import {MatDialog} from "@angular/material/dialog";
-import {ReviewComponent, ReviewData} from "../review/review.component";
-import {BusinessService} from "../business.service";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { ToolbarService } from '../toolbar.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ReviewComponent, ReviewData } from '../review/review.component';
+import { BusinessService } from '../business.service';
 import * as Leaflet from 'leaflet';
 
 @Component({
   selector: 'app-review',
   templateUrl: './business.component.html',
-  styleUrls: ['./business.component.css']
+  styleUrls: ['./business.component.css'],
 })
 export class BusinessComponent implements OnInit, OnDestroy {
   business: any;
   reviews: any;
+  uploads: any;
   public pageSize = 10;
   public currentPage = 0;
   public totalSize = 0;
   map: Leaflet.Map | any;
+  imgCollection: Array<object> = [];
 
   stars: number = 0;
-  text: string = "";
+  text: string = '';
 
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private toolbarService: ToolbarService, private businessService: BusinessService, public dialog: MatDialog) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute,
+    private toolbarService: ToolbarService,
+    private businessService: BusinessService,
+    public dialog: MatDialog
+  ) {
     this.business = this.router.getCurrentNavigation()?.extras?.state;
     // this.map = Leaflet.map('map');
 
     if (!this.business) {
       const ls: any = localStorage.getItem('business');
 
-      this.route.paramMap.subscribe(paramMap => {
+      this.route.paramMap.subscribe((paramMap) => {
         const busId = paramMap.get('id');
 
         if (ls && JSON.parse(ls)['business_id'] == busId) {
@@ -39,22 +48,41 @@ export class BusinessComponent implements OnInit, OnDestroy {
         } else {
           router.navigateByUrl('/');
         }
-      })
+      });
     }
   }
 
   getAllReviews(e: any) {
     this.currentPage = e.pageIndex;
     this.pageSize = e.pageSize;
-    this.http.get(`${environment.apiUrl}/review/${this.business.business_id}?page=` + this.currentPage + '&limit=' + this.pageSize)
+    this.http
+      .get(
+        `${environment.apiUrl}/review/${this.business.business_id}?page=` +
+          this.currentPage +
+          '&limit=' +
+          this.pageSize
+      )
       .subscribe((reviews: any) => {
         const maxLen = 500;
         for (let i = 0; i < reviews.length; i++) {
           let isLong = reviews[i].text.length > maxLen;
-          reviews[i].text = reviews[i].text.substring(0, maxLen) + (isLong ? "..." : "");
+          reviews[i].text =
+            reviews[i].text.substring(0, maxLen) + (isLong ? '...' : '');
         }
         this.reviews = reviews;
-
+      });
+  }
+  getAllUploads(e: any) {
+    this.http
+      .get(
+        `${environment.apiUrl}/business/${this.business.business_id}/uploads/`
+      )
+      .subscribe((uploads: any) => {
+        for (let upload of uploads){
+          this.imgCollection.push({
+            thumbImage : "http://localhost:3000/business/uploads/" + upload.photo_id + ".jpg"
+          })
+        }
       });
   }
 
@@ -68,11 +96,11 @@ export class BusinessComponent implements OnInit, OnDestroy {
       width: '250px',
       data: {
         stars: this.stars,
-        text: this.text
-      }
+        text: this.text,
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.postReview(result);
       }
@@ -82,40 +110,50 @@ export class BusinessComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // this.map = Leaflet.map('map').setView([this.business.longitude, this.business.latitude], 5);
 
-    this.map = Leaflet.map('map').setView([this.business.latitude, this.business.longitude], 20);
-    Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
+    this.map = Leaflet.map('map').setView(
+      [this.business.latitude, this.business.longitude],
+      20
+    );
+    Leaflet.tileLayer(
+      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+    ).addTo(this.map);
 
     var customIcon = Leaflet.icon({
       iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
       iconSize: [30, 48],
-      iconAnchor: [15, 42]
+      iconAnchor: [15, 42],
     });
 
-    Leaflet.marker([this.business.latitude, this.business.longitude], {icon: customIcon}).addTo(this.map);
+    Leaflet.marker([this.business.latitude, this.business.longitude], {
+      icon: customIcon,
+    }).addTo(this.map);
 
-
-    this.http.get(`${environment.apiUrl}/review-length/` + this.business.business_id).subscribe((result: any) => {
-      console.log(result[0].review_id)
-      this.totalSize = result[0].review_id
-    });
+    this.http
+      .get(`${environment.apiUrl}/review-length/` + this.business.business_id)
+      .subscribe((result: any) => {
+        console.log(result[0].review_id);
+        this.totalSize = result[0].review_id;
+      });
 
     this.getAllReviews(this);
+    this.getAllUploads(this);
 
     if (this.toolbarService.subsVar == undefined) {
-      this.toolbarService.subsVar = this.toolbarService.invokeOpenReviewDialog.subscribe((name: string) => {
-        this.openReviewDialog();
-      });
+      this.toolbarService.subsVar =
+        this.toolbarService.invokeOpenReviewDialog.subscribe((name: string) => {
+          this.openReviewDialog();
+        });
     }
 
     if (this.businessService.subsVar == undefined) {
-      this.businessService.subsVar = this.businessService.invokeReviewRefresh.subscribe(() => {
-        this.getAllReviews(this);
-      });
+      this.businessService.subsVar =
+        this.businessService.invokeReviewRefresh.subscribe(() => {
+          this.getAllReviews(this);
+        });
     }
   }
 
   ngOnDestroy(): void {
     this.map.remove();
   }
-
 }
