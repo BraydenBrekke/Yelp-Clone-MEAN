@@ -62,12 +62,15 @@
   </div>
 
 
-
-   
+  
 
   <div class="row g-4 py-5 row-cols-1">
     <div class="feature col">
       <h2 class="pb-2 border-bottom">Reviews</h2>
+   <mat-paginator #paginator [pageSize]="pageSize" [pageSizeOptions]="[10, 25, 50]"  [length]="totalSize"
+    [pageIndex]="currentPage" (page)="getAllReviews($event)">
+</mat-paginator>
+ 
       <div *ngIf="reviews">
         <div class="row g-4 py-5 row-cols-1 row-cols-md-2 row-cols-lg-3">
           <div *ngFor="let r of reviews">
