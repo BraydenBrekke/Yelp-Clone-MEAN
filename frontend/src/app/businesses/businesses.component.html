@@ -1,13 +1,19 @@
-
 <div class="container px-4 py-5">
 
   <h2 class="pb-2 border-bottom">Businesses</h2>
-  <mat-paginator #paginator [pageSize]="pageSize" [pageSizeOptions]="[10, 25, 50]"  [length]="totalSize"
-    [pageIndex]="currentPage" (page)="getAllBusinesses($event)">
-</mat-paginator>
-      <mat-form-field style="width: 25%; " >
-        <input type="text" matInput placeholder="Search" [(ngModel)]="searchTerm" >
-        </mat-form-field>
+  <div class="row justify-content-between">
+    <div class="col">
+      <mat-form-field class="col-md-3 search">
+        <mat-icon matPrefix>search</mat-icon>
+        <input type="text" matInput placeholder="&nbsp;&nbsp;Search" [(ngModel)]="searchTerm">
+      </mat-form-field>
+    </div>
+    <div class="col-md-auto">
+      <mat-paginator #paginator [pageSize]="pageSize" [pageSizeOptions]="[10, 25, 50]" [length]="totalSize"
+                     [pageIndex]="currentPage" (page)="getAllBusinesses($event)">
+      </mat-paginator>
+    </div>
+  </div>
   <div *ngIf="businesses">
     <div class="row g-4 py-5 row-cols-1 row-cols-md-2 row-cols-lg-3">
       <div *ngFor="let b of businesses">
@@ -20,12 +26,13 @@
                         class="gold">
                 star
               </mat-icon>
-              <mat-icon *ngFor="let index of [].constructor(5 - b.stars)" aria-hidden="false" aria-label="Star" class="faded">
+              <mat-icon *ngFor="let index of [].constructor(5 - b.stars)" aria-hidden="false" aria-label="Star"
+                        class="faded">
                 star
               </mat-icon>
             </p>
             <p>
-              <span  *ngFor="let c of b.categories" class="badge rounded-pill bg-light text-dark">{{c}}</span>
+              <span *ngFor="let c of b.categories" class="badge rounded-pill bg-light text-dark">{{c}}</span>
             </p>
           </mat-card-content>
           <mat-card-actions>

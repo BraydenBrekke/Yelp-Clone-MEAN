@@ -1,7 +1,14 @@
-.example-card{
+.example-card {
   margin-bottom: 24px;
 }
 
-.mat-card-title{
+.mat-card-title {
   line-height: 1.2em;
 }
+
+.search {
+  width: 100%;
+  max-width: 250px;
+}
+
+

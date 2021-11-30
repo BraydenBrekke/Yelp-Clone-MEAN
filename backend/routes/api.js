@@ -57,6 +57,7 @@ MongoClient.connect(connectionString, function (err, db) {
             .collection("Business")
             .find(filter)
             .limit(limit)
+            .sort({"review_count": -1})
             .skip(page)
             .toArray()
             .then((results) => {
