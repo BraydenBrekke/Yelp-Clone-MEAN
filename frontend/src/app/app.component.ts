@@ -5,7 +5,8 @@ import {ToolbarService} from "./toolbar.service";
 
 enum slug {
   BUSINESSES,
-  BUSINESS
+  BUSINESS,
+  INSIGHTS
 }
 
 @Component({
@@ -17,7 +18,7 @@ export class AppComponent implements OnInit {
   addBtnTxt: string = '';
   currentSlug: any;
 
-  constructor(private router: Router,  private toolbarService: ToolbarService) {
+  constructor(private router: Router, private toolbarService: ToolbarService) {
   }
 
   morphButton() {
@@ -32,7 +33,7 @@ export class AppComponent implements OnInit {
     if (this.currentSlug === slug.BUSINESS) {
       this.toolbarService.openReviewDialog();
     } else {
-      console.log('NEW BUSINESS');
+      this.router.navigateByUrl('/insights');
     }
   }
 
@@ -46,6 +47,8 @@ export class AppComponent implements OnInit {
         if (event instanceof NavigationStart) {
           if (event.url.includes('business')) {
             this.currentSlug = slug.BUSINESS;
+          } else if (event.url.includes('insights')) {
+            this.currentSlug = slug.INSIGHTS;
           } else {
             this.currentSlug = slug.BUSINESSES;
           }

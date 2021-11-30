@@ -23,6 +23,9 @@ import {MatFormFieldControl} from "@angular/material/form-field";
 import {MatSlider, MatSliderModule} from "@angular/material/slider";
 import { MatPaginatorModule } from '@angular/material/paginator'; 
 import { NgImageSliderModule } from 'ng-image-slider';
+import { InsightsComponent } from './insights/insights.component';
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatListModule} from "@angular/material/list";
 
 
 
@@ -33,7 +36,8 @@ import { NgImageSliderModule } from 'ng-image-slider';
     AppComponent,
     BusinessesComponent,
     BusinessComponent,
-    ReviewComponent
+    ReviewComponent,
+    InsightsComponent
   ],
   imports: [
     NgImageSliderModule,
@@ -48,6 +52,8 @@ import { NgImageSliderModule } from 'ng-image-slider';
     MatCardModule,
     MatMenuModule,
     MatIconModule,
+    MatTabsModule,
+    MatListModule,
     AppRoutingModule,
     RouterModule,
     MatDialogModule,

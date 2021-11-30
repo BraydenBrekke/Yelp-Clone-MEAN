@@ -5,7 +5,11 @@
       <h5 class="d-inline-block">&nbsp;Yelp Clone</h5>
     </button>
     <span class="example-spacer"></span>
-    <button mat-raised-button color="primary" (click)="buttonAction()" *ngIf="currentSlug !== 0">
+    <button mat-raised-button color="primary" (click)="buttonAction()" *ngIf="currentSlug == 0">
+      <mat-icon>insights</mat-icon>
+      Insights
+    </button>
+    <button mat-raised-button color="primary" (click)="buttonAction()" *ngIf="currentSlug == 1">
       <mat-icon>add</mat-icon>
       {{addBtnTxt}}
     </button>
