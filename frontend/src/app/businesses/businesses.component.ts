@@ -15,16 +15,28 @@ export class BusinessesComponent implements OnInit {
   public totalSize = 0;
   // Declare empty list of businesses
   businesses: any[] = [];
+  private _searchTerm: string ='';
+
+  set searchTerm(value: string){
+    this._searchTerm = value;
+    this.getTotalSize()
+    this.getAllBusinesses(this);
+  }
+
+
 
   constructor(private http: HttpClient, private router: Router) {
   }
 
   // Angular 2 Life Cycle event when component has been initialized
   ngOnInit() {
-    this.http.get(`${environment.apiUrl}/business-length`).subscribe((result: any) => {
+    this.getTotalSize() 
+    this.getAllBusinesses(this);
+  }
+  getTotalSize(){
+    this.http.get(`${environment.apiUrl}/business-length?filter=` + this._searchTerm).subscribe((result: any) => {
       this.totalSize = result
     });
-    this.getAllBusinesses(this);
   }
 
   // Get all Businesses from the API
@@ -32,7 +44,7 @@ export class BusinessesComponent implements OnInit {
     this.currentPage = e.pageIndex ? e.pageIndex : 0;
     this.pageSize = e.pageSize;
     this.http
-      .get(`${environment.apiUrl}/business?page=` + this.currentPage + '&limit=' + this.pageSize)
+      .get(`${environment.apiUrl}/business?page=` + this.currentPage + '&limit=' + this.pageSize + '&filter=' + this._searchTerm)
       .subscribe((business: any) => {
         this.businesses = business;
         // Put in a better place

@@ -49,9 +49,13 @@ MongoClient.connect(connectionString, function (err, db) {
         } else {
             var page = 0;
         }
+        if (req.query.filter) {
+            var filter = {name: {'$regex': req.query.filter, '$options': 'i'}}
+        }
+
         const cursor = db
             .collection("Business")
-            .find()
+            .find(filter)
             .limit(limit)
             .skip(page)
             .toArray()
@@ -59,10 +63,13 @@ MongoClient.connect(connectionString, function (err, db) {
                 res.status(200).json(results);
             });
     });
-
     app.get("/business-length", (req, res) => {
+        if (req.query.filter) {
+            var filter = {name: {'$regex': req.query.filter, '$options': 'i'}}
+        }
         const cursor = db
             .collection("Business")
+            .find(filter)
             .count()
             .then((results) => {
                 res.status(200).json(results);
@@ -104,7 +111,6 @@ MongoClient.connect(connectionString, function (err, db) {
                 res.status(200).json(results);
             });
     });
-
     app.get("/review-length/:business_id", (req, res) => {
         const bid = req.params.business_id;
         const cursor = db
