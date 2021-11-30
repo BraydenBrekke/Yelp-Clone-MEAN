@@ -16,6 +16,7 @@ enum slug {
 export class AppComponent implements OnInit {
   addBtnTxt: string = '';
   currentSlug: any;
+ 
 
   constructor(private router: Router,  private toolbarService: ToolbarService) {
   }
@@ -35,6 +36,7 @@ export class AppComponent implements OnInit {
       console.log('NEW BUSINESS');
     }
   }
+  
 
 
   navigateToRoot() {

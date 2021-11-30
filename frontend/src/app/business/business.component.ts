@@ -24,8 +24,7 @@ export class BusinessComponent implements OnInit, OnDestroy {
 
   stars: number = 0;
   text: string = '';
-
-  constructor(
+   constructor(
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
